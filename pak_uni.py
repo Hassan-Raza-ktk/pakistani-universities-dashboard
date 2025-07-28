@@ -158,8 +158,7 @@ with col3:
     timeline_fig.update_layout(margin=dict(t=40, b=20, l=10, r=10), height=350)
     st.plotly_chart(timeline_fig, use_container_width=True)
 
-# ---------------------------- University Browser --------------------------------- #
-st.markdown("<h4 style='font-size: 20px;'><br><br>🔎 University Browser</h4>", unsafe_allow_html=True)
+# # ---------------------------- University Browser --------------------------------- #
 
 # Clean spaces
 for col in ["University Name", "City", "Province", "Sector", "Chartered By", "Website"]:
@@ -169,41 +168,41 @@ for col in ["University Name", "City", "Province", "Sector", "Chartered By", "We
 df_display = filtered_df[["University Name", "City", "Province", "Sector", "Chartered By", "Website"]].copy()
 df_display["Website"] = df_display["Website"].apply(lambda url: f"<a href='{url}' target='_blank' style='color: green; text-decoration: none;'>{url}</a>")
 
-# CSS for scrollable box
+# Format columns
+df_display["University Name"] = filtered_df["University Name"].apply(
+    lambda name: f"<span title='{name}'>{name[:25]}{'...' if len(name) > 25 else ''}</span>"
+)
+
+
+# Inject CSS for horizontal + vertical scrollable HTML table (max 10 rows visible)
 st.markdown("""
     <style>
-    .scrollable-table-container {
-        max-height: 480px;
+    .responsive-scroll-table {
+        overflow-x: auto;
         overflow-y: auto;
+        max-height: 420px;  /* approx for 10 rows */
         border: 1px solid #ddd;
         border-radius: 6px;
-        padding: 10px;
     }
-    .scrollable-table-container table {
+    .responsive-scroll-table table {
+        border-collapse: collapse;
         width: 100%;
+        min-width: 600px;
         font-size: 14px;
-        table-layout: fixed;
     }
-    .scrollable-table-container th, .scrollable-table-container td {
-        padding: 6px 8px;
+    .responsive-scroll-table th, .responsive-scroll-table td {
+        padding: 6px 10px;
         text-align: left;
+        border-bottom: 1px solid #eee;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 160px;
     }
-    .scrollable-table-container th:nth-child(1),
-    .scrollable-table-container td:nth-child(1) {
-        max-width: 180px;  /* University Name */
-    }
-    .scrollable-table-container th:nth-child(6),
-    .scrollable-table-container td:nth-child(6) {
-        max-width: 200px;  /* Website */
+    a {
+        color: green;
+        text-decoration: none;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Scrollable HTML table inside container
 st.markdown(
-    f"<div class='scrollable-table-container'>{df_display.to_html(escape=False, index=False)}</div>",
+    f"<div class='responsive-scroll-table'>{df_display.to_html(escape=False, index=False)}</div>",
     unsafe_allow_html=True)
