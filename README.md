@@ -24,7 +24,7 @@ An interactive and responsive data dashboard built with **Streamlit**, visualizi
 
 | Filters & Metrics | Charts | University Table |
 |-------------------|--------|------------------|
-| ![Sidebar](sidebar.jpg) | ![Charts](charts.jptg) | ![Table](table.jpg) |
+| ![Sidebar](sidebar.jpg) | ![Charts](charts.jpg) | ![Table](table.jpg) |
 
 ---
 
