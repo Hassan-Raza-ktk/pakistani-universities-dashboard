@@ -5,14 +5,14 @@ import plotly.express as px
 
 st.set_page_config(
     page_title="Pakistani Universities",
-    page_icon="",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="auto"
 )
 
 # Load data
 df = pd.read_csv("universities.csv")
 
-# --- Sidebar Layout --- #
+# ------------------------------- Sidebar Layout ----------------------------------- #
 with st.sidebar:
     # Load and resize banner image
     banner = Image.open("logo.png")
@@ -26,7 +26,7 @@ with st.sidebar:
     <hr style='margin: 15px;'>
     """, unsafe_allow_html=True)
     
-    ##### 🔍 Filters
+#----------------------------- 🔍 Filters-----------------------------------------#
 
     st.markdown("""
     <div style='margin-bottom: -30px;'>
@@ -55,7 +55,7 @@ with st.sidebar:
     city = st.selectbox("", options=["All"] + city_options, key="city")
         
         
-# --- Apply Filters --- #
+#-----------------------------  Apply Filters ------------------------------------- #
 filtered_df = df.copy()
 if province != "All":
     filtered_df = filtered_df[filtered_df["Province"] == province]
@@ -67,14 +67,14 @@ if sector != "All":
     filtered_df = filtered_df[filtered_df["Sector"] == sector]
 
 
-# --- Main Page Content --- #
+#-----------------------------  Main Page Content -------------------------------- #
 st.markdown("""
     <h2 style='font-size: 28px; margin-bottom: 5px; text-align: center;'>All Pakistan Universities</h2>
     <p style='font-size: 14px; color: gray;'>Interactive insights and search for HEC-listed universities in Pakistan.</p>
     <hr style='margin-top: 0;'>
 """, unsafe_allow_html=True)
 
-# --- Summary Stats --- #
+#-------------------------------- Summary Stats ----------------------------------- #
 st.markdown("<h4 style='font-size: 20px;'>📈 Summary Stats</h4>", unsafe_allow_html=True)
 
 col1, col2, col3, col4 = st.columns(4)
@@ -86,7 +86,7 @@ distance_label = distance_unis[0] if len(distance_unis) == 1 else f"{len(distanc
 col4.markdown(f"<p style='font-size:14px;'>Distance Ed.</p>", unsafe_allow_html=True)
 col4.markdown(f"<h6 style='font-size:18px; color:#444; margin-top:-10px'>{distance_label}</h6>", unsafe_allow_html=True)
 
-# --- Insights Charts --- #
+# --------------------------------- Insights Charts ------------------------- #
 st.markdown("<h4 style='font-size: 20px;'><br><br>📊 Insights</h4>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns([2, 1, 2.5])
@@ -117,7 +117,7 @@ with col2:
         names="Sector",
         values="Count",
         title="Sector-wise Distribution",
-        color_discrete_sequence=["#1f77b4", "#ac89cc"]  # Blue & Light Purple
+        color_discrete_sequence=["#1f77b4", "#ac89cc"]
     )
     sector_fig.update_traces(textfont_size=9)
     sector_fig.update_layout(margin=dict(t=40, b=20, l=80, r=10), height=350)
@@ -138,18 +138,18 @@ with col3:
     )
     timeline_fig.update_traces(
     line=dict(
-        color= '#c084f5',       # deep purple
+        color= '#c084f5',      
         width=1.5,
-        dash='dot',           # dashed line
-        shape='spline'         # curved
+        dash='dot',         
+        shape='spline'      
     ),
-    marker=dict(size=6, color='#6a0dad')  # light purple dots
+    marker=dict(size=6, color='#6a0dad') 
     )
 
     timeline_fig.update_layout(margin=dict(t=40, b=20, l=10, r=10), height=350)
     st.plotly_chart(timeline_fig, use_container_width=True)
 
-# --- University Browser --- #
+# ---------------------------- University Browser --------------------------------- #
 st.markdown("<h4 style='font-size: 20px;'><br><br>🔎 University Browser</h4>", unsafe_allow_html=True)
 
 # Clean spaces
